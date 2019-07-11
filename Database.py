@@ -48,10 +48,10 @@ def dbretrieveusers():
     try:
         collection = connectDB("sheplaysCadastros")
 
-        lista_de_users = []
+        dict_users = {}
         for user in collection.find().sort("username", 1):
-            lista_de_users.append(user)
-        return lista_de_users
+            dict_users[str(user["_id"])] = user
+        return dict_users
     except:
         print("Error when retrieving from database")
 

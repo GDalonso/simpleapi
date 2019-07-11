@@ -1,13 +1,64 @@
 from werkzeug.security import generate_password_hash
 from markdown.extensions.codehilite import CodeHiliteExtension
 from flask import Markup
+from random import randint, choice
+import string
+
+
+def create_strong_password():
+    # Generate a random secure password to be inserted
+    password = ""
+    #   Special characters array
+    SpecialChar = [
+        "!",
+        "@",
+        "#",
+        "$",
+        "%",
+        "&",
+        "*",
+        "(",
+        ")",
+        "_",
+        "+",
+        "=",
+        "[",
+        "{",
+        "]",
+        "}",
+        "~",
+        ">",
+        "<",
+        "|",
+        "?",
+        "/",
+    ]
+    #   Create a password with 8 characters
+    for i in range(2):
+        # pic a uppercase char
+        password = password + choice(string.ascii_uppercase)
+        # pic a lowercase char
+        password = password + choice(string.ascii_lowercase)
+        # pic a random number
+        password = password + str(randint(0, 9))
+        # pic a special char in the array
+        password = password + choice(SpecialChar)
+    return password
 
 
 class User:
-    def __init__(self, username, nome, senha):
-        self.username = username
-        self.nome = nome
-        self.set_password(senha)
+    def __init__(
+        self, firstname, lastname, fromEmail, games, onlineHour, nickname, password=None
+    ):
+        self.firstname = firstname
+        self.lastname = lastname
+        self.fromEmail = fromEmail
+        self.games = games
+        self.onlineHour = onlineHour
+        self.nickname = nickname
+
+        # creating a random secure password, not informing yet beacause we don't have a login system yet
+        self.set_password(password if password else create_strong_password())
 
     def set_password(self, password):
         self.pw_hash = generate_password_hash(password)
