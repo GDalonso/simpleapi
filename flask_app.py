@@ -1,8 +1,8 @@
-from flask import request, redirect, session, url_for
+from flask import Flask, jsonify
 
 from database import dbinsertusuario, dbretrieveusers, dbremoveuser
 from models import User
-from flask import Flask, jsonify
+
 # from flask_talisman import Talisman
 
 app = Flask(__name__)
@@ -17,6 +17,10 @@ app.secret_key = "dalonso"
 # GZIP - Utilizado para compactar a pagina
 # gzip = Compress(app)
 
+
+@app.route("/")
+def inicial():
+    return "tá funcionando o animal"
 
 @app.route("/newUser", methods=["POST"])
 def new_user():
@@ -54,7 +58,7 @@ def new_user():
     dbinsertusuario(usuario.__dict__)
 
     # Dynamic route to the index function
-    return redirect(url_for("index"))
+    return {200: "deu certo"}
 
 
 @app.route("/listUsers")

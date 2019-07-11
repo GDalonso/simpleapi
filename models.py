@@ -1,8 +1,8 @@
-from werkzeug.security import generate_password_hash
-from markdown.extensions.codehilite import CodeHiliteExtension
-from flask import Markup
-from random import randint, choice
 import string
+from random import randint, choice
+
+from werkzeug.security import generate_password_hash
+
 
 # Todo shove this somewhere else, in a controllers or utils
 def create_strong_password():

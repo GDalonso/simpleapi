@@ -19,3 +19,6 @@ Api pra cadastros simples
 
 
 `flask run --port 50000`
+
+
+pip install pymongo
