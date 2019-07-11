@@ -56,10 +56,10 @@ def dbretrieveusers():
         print("Error when retrieving from database")
 
 
-def removeuser(_userId):
+def dbremoveuser(_userId):
     try:
         collection = connectDB("sheplaysCadastros")
-        collection.remove({"_id": ObjectId(_userId)})
+        return collection.remove({"_id": ObjectId(_userId)}, justOne=True)
     except:
         print("error when deleting user")
 

@@ -1,6 +1,6 @@
 from flask import request, redirect, session, url_for
 
-from Database import dbinsertusuario, dbretrieveusers
+from database import dbinsertusuario, dbretrieveusers, dbremoveuser
 from models import User
 from flask import Flask, jsonify
 
@@ -61,3 +61,16 @@ def list_users():
     List all users in the database
     """
     return jsonify(dbretrieveusers())
+
+
+# todo trocar essa rota pra delete ao invés de get
+@app.route("/deleteUser/<_userid>")
+def delete_user(_userid: str):
+    """
+    delete user with the given id from the database
+    :param _userid: Id of a user to be removed from database
+    """
+    result = dbremoveuser(_userid)
+    if "ok" in result.keys():
+        return {200: "removed"}
+    return {500: "not removed"}
