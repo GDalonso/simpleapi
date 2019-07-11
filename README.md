@@ -1,12 +1,16 @@
 # simpleapi
-api pra cadastros simples
+Api pra cadastros simples
 
-virtualenv venvflaskblog
+#####Cria e ativa o virtual env
 
-source venvsimpleapi/bin/activate
+`virtualenv venvflaskblog`
 
-sudo python3 Setup.py install
+`source venvsimpleapi/bin/activate`
 
-export FLASK_APP=app.py
+##### instala os requisitos
+`sudo python3 Setup.py install`
 
-flask run
+##### exporta e roda a aplicação
+`export FLASK_APP=app.py`
+
+`flask run`
