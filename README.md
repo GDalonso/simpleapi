@@ -16,3 +16,6 @@ Api pra cadastros simples
 `export FLASK_APP=app.py`
 
 `flask run`
+
+
+`flask run --port 50000`

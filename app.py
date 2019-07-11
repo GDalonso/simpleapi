@@ -3,11 +3,11 @@ from flask import request, redirect, session, url_for
 from database import dbinsertusuario, dbretrieveusers, dbremoveuser
 from models import User
 from flask import Flask, jsonify
-from flask_talisman import Talisman
+# from flask_talisman import Talisman
 
 app = Flask(__name__)
 app.secret_key = "dalonso"
-Talisman(app)
+# Talisman(app)
 
 # Configura a aplicação, os diretorios de CSS, JS, Imagens e fontes
 # app = Flask(__name__, template_folder='templates', static_folder='static')
