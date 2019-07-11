@@ -10,6 +10,8 @@ Api pra cadastros simples
 ##### instala os requisitos
 `sudo python3 Setup.py install`
 
+`pip3 install flask-talisman`
+
 ##### exporta e roda a aplicação
 `export FLASK_APP=app.py`
 

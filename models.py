@@ -4,7 +4,7 @@ from flask import Markup
 from random import randint, choice
 import string
 
-
+# Todo shove this somewhere else, in a controllers or utils
 def create_strong_password():
     # Generate a random secure password to be inserted
     password = ""
