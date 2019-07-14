@@ -10,15 +10,11 @@ Api pra cadastros simples
 ##### instala os requisitos
 `sudo python3 Setup.py install`
 
-`pip3 install flask-talisman`
+`pip install pymongo`
+
+`pip install flask-swagger`
 
 ##### exporta e roda a aplicação
 `export FLASK_APP=app.py`
 
 `flask run`
-
-
-`flask run --port 50000`
-
-
-pip install pymongo
