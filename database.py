@@ -62,8 +62,9 @@ def dbremoveUser(_userId):
         collection = connectDB("sheplaysCadastros")
         if isinstance(collection, Dict) and "error" in collection.keys():
             return collection
-        return collection.remove({"_id": ObjectId(_userId)}, justOne=True)
-    except:
+        return collection.remove({"_id": ObjectId(_userId)}, {"justOne": True})
+    except Exception as e:
+        print(e)
         return {"error": "error when deleting user"}
 
 

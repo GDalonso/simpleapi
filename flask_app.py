@@ -64,8 +64,7 @@ def new_user():
     )
 
 
-# todo trocar essa rota pra delete ao invés de get
-@app.route("/deleteUser/<_userid>")
+@app.route("/deleteUser/<_userid>", methods=["DELETE"])
 def delete_user(_userid: str):
     """
     delete user with the given id from the database
