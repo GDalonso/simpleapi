@@ -1,26 +1,25 @@
-from flask import Flask, jsonify
+# A very simple Flask Hello World app for you to get started with...
 
-from database import dbinsertusuario, dbretrieveusers, dbremoveuser
+from flask import Flask, jsonify
+from database import dbinsertUser, dbretrieveUsers, dbremoveUser
 from models import User
 
-# from flask_talisman import Talisman
 
 app = Flask(__name__)
-app.secret_key = "dalonso"
-# Talisman(app)
-
-# Configura a aplicação, os diretorios de CSS, JS, Imagens e fontes
-# app = Flask(__name__, template_folder='templates', static_folder='static')
-# Define uma chave para o HEROKU
-# app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'WYZ')
-
-# GZIP - Utilizado para compactar a pagina
-# gzip = Compress(app)
 
 
 @app.route("/")
-def inicial():
-    return "tá funcionando o animal"
+def hello_world():
+    return "Hello from Flask!"
+
+
+@app.route("/listUsers")
+def list_users():
+    """
+    List all users in the database
+    """
+    return jsonify(dbretrieveUsers())
+
 
 @app.route("/newUser", methods=["POST"])
 def new_user():
@@ -52,21 +51,17 @@ def new_user():
     onlineHour = args["onlineHour"]
     nickname = args["nickname"]
 
-    usuario = User(firstname, lastname, fromEmail, games, onlineHour, nickname)
+    user = User(firstname, lastname, fromEmail, games, onlineHour, nickname)
 
     # Insert the object converted to dict in the database
-    dbinsertusuario(usuario.__dict__)
+    result = dbinsertUser(user.__dict__)
 
     # Dynamic route to the index function
-    return {200: "deu certo"}
-
-
-@app.route("/listUsers")
-def list_users():
-    """
-    List all users in the database
-    """
-    return jsonify(dbretrieveusers())
+    return (
+        jsonify({200: "Inserted"})
+        if "error" not in result.keys()
+        else jsonify({500: result["error"]})
+    )
 
 
 # todo trocar essa rota pra delete ao invés de get
@@ -76,10 +71,7 @@ def delete_user(_userid: str):
     delete user with the given id from the database
     :param _userid: Id of a user to be removed from database
     """
-    result = dbremoveuser(_userid)
+    result = dbremoveUser(_userid)
     if "ok" in result.keys():
-        return {200: "removed"}
-    return {500: "not removed"}
-
-if __name__ == "__main__":
-    app.run(port=800)
+        return jsonify({200: "Removed"})
+    return jsonify({500: "Not Removed"})

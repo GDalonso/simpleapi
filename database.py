@@ -1,14 +1,11 @@
 from bson.objectid import ObjectId
 from pymongo import MongoClient
-
-
-# mongodb://adminsheplays:Jp4W7e9CzUR3wKP@ds349857.mlab.com:49857/sheplays
+from typing import Dict
 
 
 def connectDB(coll="sheplaysCadastros"):
     try:
         # Create the auth client in mlab
-        # client = MongoClient('mongodb://Master:BabegaWrovDeAv6@ds261429.mlab.com:61429/nasa')
         client = MongoClient(
             "mongodb://adminsheplays:Jp4W7e9CzUR3wKP@ds349857.mlab.com:49857/sheplays"
         )
@@ -18,48 +15,55 @@ def connectDB(coll="sheplaysCadastros"):
         if coll == "sheplaysCadastros":
             return db.cadastros
     except Exception as e:
-        print(e)
-        print("Error trying to connect to database")
+        return {"error": "Error trying to connect to database"}
 
 
-def dbinsertusuario(usuarioainserir):
+def dbinsertUser(usertoinsert):
     try:
         collection = connectDB("sheplaysCadastros")
-        # Insere o documento na collection e retorna o id
-        print(usuarioainserir)
-        doc_id = collection.insert_one(usuarioainserir).inserted_id
-        print(doc_id)
+        if isinstance(collection, Dict) and "error" in collection.keys():
+            return collection
+        # insert the document in the collection and returns the given id
+        doc_id = collection.insert_one(usertoinsert).inserted_id
     except Exception as e:
-        print("error writing to database")
+        return {"error": "error writing to database"}
 
 
-def dbretrieveusuario(usuario):
+def dbretrieveUser(user):
     try:
         collection = connectDB("sheplaysCadastros")
-        user = collection.find_one({"username": usuario})
+        if isinstance(collection, Dict) and "error" in collection.keys():
+            return collection
+        user = collection.find_one({"username": user})
         return user
     except:
-        print("error retrieving user from database")
+        return {"error": "error retrieving user from database"}
 
 
-def dbretrieveusers():
+def dbretrieveUsers():
     try:
         collection = connectDB("sheplaysCadastros")
+        if isinstance(collection, Dict) and "error" in collection.keys():
+            return collection
 
         dict_users = {}
-        for user in collection.find().sort("username", 1):
+        # retrieve all users without their password hashes
+        for user in collection.find({}, {"pw_hash": 0}).sort("username", 1):
+            user["_id"] = str(user["_id"])
             dict_users[str(user["_id"])] = user
         return dict_users
     except:
-        print("Error when retrieving from database")
+        return {"error": "Error when retrieving from database"}
 
 
-def dbremoveuser(_userId):
+def dbremoveUser(_userId):
     try:
         collection = connectDB("sheplaysCadastros")
+        if isinstance(collection, Dict) and "error" in collection.keys():
+            return collection
         return collection.remove({"_id": ObjectId(_userId)}, justOne=True)
     except:
-        print("error when deleting user")
+        return {"error": "error when deleting user"}
 
 
 # #Receive a document and insert in the database
