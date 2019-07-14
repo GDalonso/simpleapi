@@ -25,6 +25,7 @@ def dbinsertUser(usertoinsert):
             return collection
         # insert the document in the collection and returns the given id
         doc_id = collection.insert_one(usertoinsert).inserted_id
+        return {"id": doc_id}
     except Exception as e:
         return {"error": "error writing to database"}
 
